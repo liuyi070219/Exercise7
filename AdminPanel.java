@@ -8,10 +8,8 @@ public class AdminPanel {
     List<RegisteredUsers> registeredUsersList = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
 
-    // 公共方法：管理员操作菜单
     public void userManagementOptions() {
         while (true) {
-            // 打印菜单
             System.out.println("\nWelcome to E-Ryder Administrator Panel.");
             System.out.println("What do you want to do?");
             System.out.println("1. Add New Users");
@@ -21,7 +19,6 @@ public class AdminPanel {
             System.out.println("5. EXIT");
             System.out.print("Enter your choice: ");
 
-            // 处理输入（防止非数字输入）
             int choice;
             try {
                 choice = Integer.parseInt(scanner.nextLine());
@@ -30,7 +27,6 @@ public class AdminPanel {
                 continue;
             }
 
-            // 分支调用对应方法
             switch (choice) {
                 case 1:
                     addNewUsers();
@@ -47,18 +43,16 @@ public class AdminPanel {
                 case 5:
                     System.out.println("Exiting Admin Panel... Thank you!");
                     scanner.close();
-                    System.exit(0); // 退出程序
+                    System.exit(0);
                 default:
                     System.out.println("Invalid choice. Please try again");
             }
         }
     }
 
-    // 私有方法：添加新用户
     private void addNewUsers() {
         System.out.print("\nHow many users would you like to add? ");
         int numUsers;
-        // 处理非数字输入
         try {
             numUsers = Integer.parseInt(scanner.nextLine());
             if (numUsers <= 0) {
@@ -70,10 +64,8 @@ public class AdminPanel {
             return;
         }
 
-        // 循环添加指定数量的用户
         for (int i = 0; i < numUsers; i++) {
             System.out.println("\n--- Enter details for User " + (i + 1) + " ---");
-            // 1. 输入基础信息
             System.out.print("Full Name: ");
             String fullName = scanner.nextLine();
             System.out.print("Email Address: ");
@@ -91,7 +83,6 @@ public class AdminPanel {
             System.out.print("User Type: ");
             String userType = scanner.nextLine();
 
-            // 2. 输入最近3次行程，初始化数组
             String[] lastThreeTrips = new String[3];
             for (int j = 0; j < 3; j++) {
                 System.out.println("\n--- Enter Trip " + (j + 1) + " Details ---");
@@ -105,21 +96,17 @@ public class AdminPanel {
                 String fare = scanner.nextLine();
                 System.out.print("Feedback (press ENTER for NULL): ");
                 String feedback = scanner.nextLine();
-                // 若反馈为空，设为NULL
                 if (feedback.isEmpty()) feedback = "NULL";
 
-                // 用StringBuilder拼接行程信息
                 StringBuilder tripSB = new StringBuilder();
                 tripSB.append("Date: ").append(tripDate)
                         .append(", Source: ").append(source)
                         .append(", Destination: ").append(dest)
                         .append(", Fare (€): ").append(fare)
                         .append(", Feedback: ").append(feedback);
-                // 转字符串存入数组
                 lastThreeTrips[j] = tripSB.toString();
             }
 
-            // 3. 创建RegisteredUsers对象并添加到集合
             RegisteredUsers newUser = new RegisteredUsers(fullName, email, dob, cardNum,
                     cardExp, cardProv, cvv, userType, lastThreeTrips);
             registeredUsersList.add(newUser);
@@ -134,17 +121,14 @@ public class AdminPanel {
         }
         System.out.println("\n--- All Registered Users ---");
         for (RegisteredUsers user : registeredUsersList) {
-            System.out.println(user); // 调用toString()方法
-        }
+            System.out.println(user); 
     }
 
-    // 私有方法：删除注册用户（按邮箱）
     private void removeRegisteredUsers() {
         if (registeredUsersList.isEmpty()) {
             System.out.println("\nNo registered users to remove");
             return;
         }
-        // 输入待删除邮箱
         System.out.print("\nEnter email address of the user to remove: ");
         String targetEmail = scanner.nextLine();
         boolean found = false;
@@ -165,18 +149,15 @@ public class AdminPanel {
         }
     }
 
-    // 私有方法：更新注册用户（按邮箱）
     private void updateRegisteredUsers() {
         if (registeredUsersList.isEmpty()) {
-            System.out.println("\nNo registered users to update"); // 修正题目笔误（原提示remove）
+            System.out.println("\nNo registered users to update"); 
             return;
         }
-        // 输入待更新邮箱
         System.out.print("\nEnter email address of the user to update: ");
         String targetEmail = scanner.nextLine();
         RegisteredUsers targetUser = null;
 
-        // 查找匹配的用户
         for (RegisteredUsers user : registeredUsersList) {
             if (user.getEmailAddress().equalsIgnoreCase(targetEmail)) {
                 targetUser = user;
@@ -189,9 +170,7 @@ public class AdminPanel {
             return;
         }
 
-        // 开始更新信息：字符串按回车保持原值，数字（卡号/CVV）输0保持原值
         System.out.println("\n--- Update User Details (press ENTER for no change, enter 0 for number fields) ---");
-        // 1. 字符串类型属性
         System.out.print("New Full Name: (Press ENTER for no change) ");
         String newFullName = scanner.nextLine();
         if (!newFullName.isEmpty()) targetUser.setFullName(newFullName);
@@ -212,7 +191,6 @@ public class AdminPanel {
         String newUserType = scanner.nextLine();
         if (!newUserType.isEmpty()) targetUser.setUserType(newUserType);
 
-        // 2. 数字/卡号类属性（输0保持原值）
         System.out.print("New Card Number: (enter 0 for no change) ");
         String newCardNum = scanner.nextLine();
         if (!newCardNum.equals("0")) targetUser.setCardNumber(newCardNum);
