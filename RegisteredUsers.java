@@ -1,7 +1,6 @@
 package Exercise7;
 import java.util.Arrays;
     public class RegisteredUsers {
-        // 基础属性（与UserRegistration一致）
         private String fullName;
         private String emailAddress;
         private String dateOfBirth;
@@ -10,10 +9,8 @@ import java.util.Arrays;
         private String cardProvider;
         private String cvv;
         private String userType;
-        // 最近三次行程数组
         private String[] lastThreeTrips;
 
-        // 构造器
         public RegisteredUsers(String fullName, String emailAddress, String dateOfBirth,
                                String cardNumber, String cardExpiryDate, String cardProvider,
                                String cvv, String userType, String[] lastThreeTrips) {
@@ -28,7 +25,6 @@ import java.util.Arrays;
             this.lastThreeTrips = lastThreeTrips;
         }
 
-        // Getter和Setter
         public String getFullName() { return fullName; }
         public void setFullName(String fullName) { this.fullName = fullName; }
 
